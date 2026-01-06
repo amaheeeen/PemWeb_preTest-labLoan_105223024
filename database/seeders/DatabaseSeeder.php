@@ -2,24 +2,38 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Item;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // 1. Buat User ID 1 (PENTING karena controller pakai User ID 1)
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Mahasiswa Lab',
+            'email' => 'admin@labloan.com',
+            'password' => bcrypt('password'), // password dummy
+        ]);
+
+        // 2. Buat Barang-barang Lab
+        Item::create([
+            'name' => 'Mikroskop Digital',
+            'description' => 'Mikroskop zoom 1000x',
+            'stock' => 5
+        ]);
+
+        Item::create([
+            'name' => 'Kabel HDMI 5m',
+            'description' => 'Kabel display proyektor',
+            'stock' => 2
+        ]);
+
+        Item::create([
+            'name' => 'Laptop ROG (Aset Lab)',
+            'description' => 'Khusus rendering',
+            'stock' => 1
         ]);
     }
 }
