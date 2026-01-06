@@ -14,10 +14,8 @@ class LoanController extends Controller
     // 1. TAMPILKAN DASHBOARD
     public function index()
     {
-        // Tambahkan with('category') agar query lebih efisien
         $items = Item::with('category')->get();
         
-        // ... kode sisa sama ...
         $myLoans = Loan::with('item')
                     ->where('user_id', 1) 
                     ->where('status', 'borrowed')

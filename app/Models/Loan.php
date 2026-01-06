@@ -4,14 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Loan extends Model
-{
-    protected $fillable = ['user_id', 'item_id', 'borrow_date', 'return_date', 'status'];
+class Loan extends Model {
+    protected $guarded = ['id'];
 
     public function item() {
         return $this->belongsTo(Item::class);
     }
-
     public function user() {
         return $this->belongsTo(User::class);
     }

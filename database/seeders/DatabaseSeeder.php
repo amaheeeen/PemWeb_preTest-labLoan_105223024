@@ -6,40 +6,44 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Category;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Mahasiswa Lab',
+        // 1. Buat User Default (Agar bisa langsung Login)
+        User::create([
+            'name' => 'Farhan Admin',
             'email' => 'admin@labloan.com',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password123'), // Password default
         ]);
 
-        $catElektronik = Category::create(['name' => 'Elektronik']);
-        $catKimia = Category::create(['name' => 'Bahan Kimia']);
-        $catFurniture = Category::create(['name' => 'Perabot']);
+        // 2. Buat Kategori
+        $cat1 = Category::create(['name' => 'Elektronik']);
+        $cat2 = Category::create(['name' => 'Alat Ukur']);
+        $cat3 = Category::create(['name' => 'Safety Gear']);
 
+        // 3. Buat Barang
         Item::create([
-            'category_id' => $catElektronik->id, // Masukkan ke Elektronik
-            'name' => 'Mikroskop Digital',
-            'description' => 'Zoom 1000x',
-            'stock' => 5
+            'category_id' => $cat1->id,
+            'name' => 'Arduino Uno R3',
+            'stock' => 15,
+            'description' => 'Mikrokontroler untuk praktikum IoT dasar.'
+        ]);
+        
+        Item::create([
+            'category_id' => $cat2->id,
+            'name' => 'Multimeter Digital',
+            'stock' => 5,
+            'description' => 'Alat ukur tegangan, arus, dan hambatan presisi tinggi.'
         ]);
 
         Item::create([
-            'category_id' => $catElektronik->id, // Masukkan ke Elektronik
-            'name' => 'Laptop ROG',
-            'description' => 'Aset Lab Multimedia',
-            'stock' => 1
-        ]);
-
-        Item::create([
-            'category_id' => $catKimia->id, // Masukkan ke Kimia
-            'name' => 'Gelas Ukur',
-            'description' => 'Ukuran 500ml',
-            'stock' => 10
+            'category_id' => $cat3->id,
+            'name' => 'Jas Lab Putih (L)',
+            'stock' => 0, // Sengaja 0 buat tes tombol disable
+            'description' => 'Pelindung tubuh standar laboratorium kimia.'
         ]);
     }
 }

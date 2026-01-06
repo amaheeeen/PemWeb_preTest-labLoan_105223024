@@ -9,19 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
-    {
+    public function up(): void {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
-            // Relasi ke tabel users dan items
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('item_id')->constrained()->onDelete('cascade');
-            $table->dateTime('borrow_date');
-            $table->dateTime('return_date')->nullable(); // Nullable = belum kembali
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('item_id')->constrained()->cascadeOnDelete();
             $table->enum('status', ['borrowed', 'returned'])->default('borrowed');
+            $table->timestamp('return_date')->nullable();
             $table->timestamps();
         });
-    }
+    }   
 
     /**
      * Reverse the migrations.
