@@ -5,35 +5,41 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Category;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Buat User ID 1 (PENTING karena controller pakai User ID 1)
         User::factory()->create([
             'name' => 'Mahasiswa Lab',
             'email' => 'admin@labloan.com',
-            'password' => bcrypt('password'), // password dummy
+            'password' => bcrypt('password'),
         ]);
 
-        // 2. Buat Barang-barang Lab
+        $catElektronik = Category::create(['name' => 'Elektronik']);
+        $catKimia = Category::create(['name' => 'Bahan Kimia']);
+        $catFurniture = Category::create(['name' => 'Perabot']);
+
         Item::create([
+            'category_id' => $catElektronik->id, // Masukkan ke Elektronik
             'name' => 'Mikroskop Digital',
-            'description' => 'Mikroskop zoom 1000x',
+            'description' => 'Zoom 1000x',
             'stock' => 5
         ]);
 
         Item::create([
-            'name' => 'Kabel HDMI 5m',
-            'description' => 'Kabel display proyektor',
-            'stock' => 2
+            'category_id' => $catElektronik->id, // Masukkan ke Elektronik
+            'name' => 'Laptop ROG',
+            'description' => 'Aset Lab Multimedia',
+            'stock' => 1
         ]);
 
         Item::create([
-            'name' => 'Laptop ROG (Aset Lab)',
-            'description' => 'Khusus rendering',
-            'stock' => 1
+            'category_id' => $catKimia->id, // Masukkan ke Kimia
+            'name' => 'Gelas Ukur',
+            'description' => 'Ukuran 500ml',
+            'stock' => 10
         ]);
     }
 }

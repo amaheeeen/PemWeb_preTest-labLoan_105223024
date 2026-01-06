@@ -14,11 +14,10 @@ class LoanController extends Controller
     // 1. TAMPILKAN DASHBOARD
     public function index()
     {
-        // Ambil semua barang
-        $items = Item::all();
+        // Tambahkan with('category') agar query lebih efisien
+        $items = Item::with('category')->get();
         
-        // Ambil peminjaman aktif milik User 1
-        // (Di real app, ganti 1 dengan auth()->id())
+        // ... kode sisa sama ...
         $myLoans = Loan::with('item')
                     ->where('user_id', 1) 
                     ->where('status', 'borrowed')
@@ -33,7 +32,7 @@ class LoanController extends Controller
         $request->validate(['item_id' => 'required|exists:items,id']);
 
         try {
-            DB::transaction(function () use ($request) {
+            DB::transaction(function () use ($request) { // Transaksi DB
                 // A. Lock baris data item agar tidak diserobot user lain
                 $item = Item::where('id', $request->item_id)->lockForUpdate()->first();
 

@@ -6,9 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    protected $fillable = ['name', 'description', 'stock'];
+    protected $fillable = ['category_id', 'name', 'description', 'stock'];
 
-    public function loans() {
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function loans()
+    {
         return $this->hasMany(Loan::class);
-}
+    }
 }
